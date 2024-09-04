@@ -1,5 +1,29 @@
 import SupplierModel from "../models/SupplierModel";
 
+const getSuppliers = async (req: any, res: any) => {
+  const { pageSize, page } = req.query;
+  try {
+    const skip = (page - 1) * pageSize;
+
+    const items = await SupplierModel.find({ isDeleted: false })
+      .skip(skip)
+      .limit(pageSize);
+
+    const total = await SupplierModel.countDocuments();
+    res.status(200).json({
+      message: "Suppliers",
+      data: {
+        total,
+        items,
+      },
+    });
+  } catch (error: any) {
+    res.status(404).json({
+      message: error.message,
+    });
+  }
+};
+
 const addNew = async (req: any, res: any) => {
   const body = req.body;
   // const {} = body
@@ -19,4 +43,69 @@ const addNew = async (req: any, res: any) => {
   }
 };
 
-export { addNew };
+const update = async (req: any, res: any) => {
+  const body = req.body;
+  const { id } = req.query;
+  try {
+    await SupplierModel.findByIdAndUpdate(id, body);
+
+    res.status(200).json({
+      message: "Supplier updated",
+      data: [],
+    });
+  } catch (error: any) {
+    res.status(404).json({
+      message: error.message,
+    });
+  }
+};
+const removeSupplier = async (req: any, res: any) => {
+  const { id } = req.query;
+  try {
+    await SupplierModel.findByIdAndDelete(id);
+
+    res.status(200).json({
+      message: "Supplier removed",
+      data: [],
+    });
+  } catch (error: any) {
+    res.status(404).json({
+      message: error.message,
+    });
+  }
+};
+
+const getForm = async (req: any, res: any) => {
+  try {
+    const form = {
+      title: "Supplier",
+      layout: "horizontal",
+      labelCol: 6,
+      wrapperCol: 18,
+      formItems: [
+        {
+          key: "name",
+          value: "name",
+          label: "Supplier name",
+          placeholder: "Enter supplier name",
+          type: "default",
+          required: true,
+          message: "Enter supplier name",
+        },
+      ],
+    };
+
+    res.status(200).json({
+      message: "",
+      data: form,
+    });
+  } catch (error: any) {
+    res.status(404).json({
+      message: error.message,
+    });
+
+    console.log(error);
+  }
+};
+
+export { addNew, getSuppliers, update, removeSupplier, getForm };
