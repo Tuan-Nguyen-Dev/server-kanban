@@ -1,3 +1,4 @@
+import { supplierForm } from "../forms/supplier";
 import SupplierModel from "../models/SupplierModel";
 
 const getSuppliers = async (req: any, res: any) => {
@@ -82,17 +83,7 @@ const getForm = async (req: any, res: any) => {
       layout: "horizontal",
       labelCol: 6,
       wrapperCol: 18,
-      formItems: [
-        {
-          key: "name",
-          value: "name",
-          label: "Supplier name",
-          placeholder: "Enter supplier name",
-          type: "default",
-          required: true,
-          message: "Enter supplier name",
-        },
-      ],
+      formItems: supplierForm,
     };
 
     res.status(200).json({
