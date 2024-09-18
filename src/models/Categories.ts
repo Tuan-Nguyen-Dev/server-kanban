@@ -20,7 +20,11 @@ const schema = new Schema({
     type: Date,
     default: Date.now(),
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const CategoriesModel = mongoose.model("product", schema);
+const CategoriesModel = mongoose.model("categories", schema);
 export default CategoriesModel;
