@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import userRouter from "./src/router/user";
 import storageRouter from "./src/router/storage";
 import supplierRouter from "./src/router/supplier";
+import productRouter from "./src/router/product";
 import cors from "cors";
 import { verifyToken } from "./src/middlewares/verifyToken";
 dotenv.config();
@@ -19,6 +20,7 @@ app.use("/auth", userRouter);
 app.use(verifyToken);
 app.use("/storage", storageRouter);
 app.use("/supplier", supplierRouter);
+app.use("/products", productRouter);
 const conectDB = async () => {
   try {
     await mongoose.connect(MONGODB);
