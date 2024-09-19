@@ -14,6 +14,9 @@ const productScheme = new Schema({
     required: true,
     type: String,
   },
+  images: {
+    type: [String],
+  },
   categories: [String],
   createdAt: {
     type: Date,
@@ -22,6 +25,10 @@ const productScheme = new Schema({
   updatedAt: {
     type: Date,
     default: Date.now(),
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false,
   },
 });
 

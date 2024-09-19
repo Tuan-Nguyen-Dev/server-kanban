@@ -3,19 +3,6 @@ import CategoriesModel from "../models/Categories";
 import ProductModel from "../models/ProductModel";
 import { CategoryModel } from "./../../../kanban/src/models/ProductModel";
 
-const getProducts = (req: any, res: any) => {
-  try {
-    res.status(200).json({
-      message: "Product",
-      data: [],
-    });
-  } catch (error: any) {
-    res.status(404).json({
-      message: error.message,
-    });
-  }
-};
-
 const addCategory = async (req: any, res: any) => {
   const body = req.body;
 
@@ -141,10 +128,49 @@ const updateCategories = async (req: any, res: any) => {
   }
 };
 
+//Product
+
+const addProduct = async (req: any, res: any) => {
+  const body = req.body;
+  try {
+    const newProduct = new ProductModel(body);
+    await newProduct.save();
+    res.status(200).json({
+      message: "Products",
+      data: newProduct,
+    });
+  } catch (error: any) {
+    res.status(404).json({
+      message: error.message,
+    });
+  }
+};
+
+const getProducts = async (req: any, res: any) => {
+  const { page, pageSize } = req.query;
+  try {
+    const skip = (page - 1) * pageSize;
+    const products = await ProductModel.find({
+      isDeleted: false,
+    })
+      .skip(skip)
+      .limit(pageSize);
+    res.status(200).json({
+      message: "Products",
+      data: products,
+    });
+  } catch (error: any) {
+    res.status(404).json({
+      message: error.message,
+    });
+  }
+};
+
 export {
   getProducts,
   addCategory,
   getCategories,
   deleteCategories,
   updateCategories,
+  addProduct,
 };
