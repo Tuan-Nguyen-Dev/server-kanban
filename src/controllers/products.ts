@@ -1,7 +1,6 @@
-import { ObjectId } from "mongoose";
-import CategoriesModel from "../models/Categories";
 import ProductModel from "../models/ProductModel";
-import { CategoryModel } from "./../../../kanban/src/models/ProductModel";
+import SubProductModel from "../models/SubProductModel";
+import CategoriesModel from "./../models/Categories";
 
 const addCategory = async (req: any, res: any) => {
   const body = req.body;
@@ -47,6 +46,23 @@ const getCategories = async (req: any, res: any) => {
     res.status(200).json({
       message: "Products",
       data: categories,
+    });
+  } catch (error: any) {
+    res.status(404).json({
+      message: error.message,
+    });
+  }
+};
+
+const getCategoriesDetails = async (req: any, res: any) => {
+  const { id } = req.query;
+
+  try {
+    const item = await CategoriesModel.findById(id);
+
+    res.status(200).json({
+      message: "Products",
+      data: item,
     });
   } catch (error: any) {
     res.status(404).json({
@@ -166,11 +182,30 @@ const getProducts = async (req: any, res: any) => {
   }
 };
 
+const addSubProduct = async (req: any, res: any) => {
+  const body = req.body;
+  try {
+    const subProduct = new SubProductModel(body);
+    subProduct.save();
+
+    res.status(200).json({
+      message: "Add Sub Product Success",
+      data: subProduct,
+    });
+  } catch (error: any) {
+    res.status(404).json({
+      message: error.message,
+    });
+  }
+};
+
 export {
-  getProducts,
   addCategory,
-  getCategories,
-  deleteCategories,
-  updateCategories,
   addProduct,
+  deleteCategories,
+  getCategories,
+  getCategoriesDetails,
+  getProducts,
+  updateCategories,
+  addSubProduct,
 };
