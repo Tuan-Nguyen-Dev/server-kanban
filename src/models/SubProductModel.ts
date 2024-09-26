@@ -17,6 +17,10 @@ const scheme = new Schema(
       required: true,
     },
     images: [String],
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
