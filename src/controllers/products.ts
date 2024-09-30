@@ -151,9 +151,9 @@ const addProduct = async (req: any, res: any) => {
 
   try {
     const newProduct = new ProductModel(body);
+
     await newProduct.save();
 
-    console.log(newProduct);
     res.status(200).json({
       message: "Products",
       data: newProduct,
