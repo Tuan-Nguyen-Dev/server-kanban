@@ -10,11 +10,11 @@ const productScheme = new Schema({
   expiryDate: {
     type: Date,
   },
+  content: String,
   supplier: {
     required: true,
     type: String,
   },
-  content: String,
   images: {
     type: [String],
   },
