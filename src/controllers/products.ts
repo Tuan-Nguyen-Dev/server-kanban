@@ -198,6 +198,21 @@ const getProducts = async (req: any, res: any) => {
   }
 };
 
+const getProductDetail = async (req: any, res: any) => {
+  const { id } = req.query;
+  try {
+    const item = await ProductModel.findById(id);
+    res.status(200).json({
+      message: "Products",
+      data: item,
+    });
+  } catch (error: any) {
+    res.status(404).json({
+      message: error.message,
+    });
+  }
+};
+
 const addSubProduct = async (req: any, res: any) => {
   const body = req.body;
   try {
@@ -245,6 +260,21 @@ const removeProduct = async (req: any, res: any) => {
   }
 };
 
+const updateProduct = async (req: any, res: any) => {
+  const { id } = req.query;
+  const body = req.body;
+  try {
+    await ProductModel.findByIdAndUpdate(id, body);
+    res.status(200).json({
+      message: "Product updated!!",
+    });
+  } catch (error: any) {
+    res.status(404).json({
+      message: error.message,
+    });
+  }
+};
+
 export {
   addCategory,
   addProduct,
@@ -255,4 +285,6 @@ export {
   updateCategories,
   addSubProduct,
   removeProduct,
+  getProductDetail,
+  updateProduct,
 };
